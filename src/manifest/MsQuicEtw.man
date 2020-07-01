@@ -9111,6 +9111,27 @@
               template="template_ptr_ui64_ui64_"
               value="635"
               />
+          <event
+              keywords="ut:Connection ut:LowVolume"
+              level="win:Informational"
+              symbol="TestHookDropOldAddrSend"
+              template="template_"
+              value="636"
+              />
+          <event
+              keywords="ut:Connection ut:LowVolume"
+              level="win:Informational"
+              symbol="TestHookDropLimitAddrRecv"
+              template="template_"
+              value="637"
+              />
+          <event
+              keywords="ut:Connection ut:LowVolume"
+              level="win:Informational"
+              symbol="TestHookDropLimitAddrSend"
+              template="template_"
+              value="638"
+              />
         </events>
       </provider>
     </events>

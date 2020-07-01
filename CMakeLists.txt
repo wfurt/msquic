@@ -137,7 +137,7 @@ set(MSVC_WARNING_FLAGS /WX /W4 /sdl CACHE INTERNAL "")
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 
     # Custom build flags.
-    set(QUIC_COMMON_FLAGS "-DWIN32_LEAN_AND_MEAN -DSECURITY_WIN32 /MP")
+    set(QUIC_COMMON_FLAGS "-DWIN32_LEAN_AND_MEAN -DSECURITY_WIN32 -DQUIC_CLOG /MP")
 
     if(QUIC_UWP_BUILD)
         set(QUIC_COMMON_FLAGS "${QUIC_COMMON_FLAGS} -DWINAPI_FAMILY=WINAPI_FAMILY_DESKTOP_APP -DQUIC_UWP_BUILD")
@@ -209,7 +209,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 else()
     # Custom build flags.
 
-    set(QUIC_COMMON_FLAGS "-fms-extensions -fPIC -pthread")
+    set(QUIC_COMMON_FLAGS "-fms-extensions -fPIC -pthread -DQUIC_CLOG")
     if (QUIC_PLATFORM STREQUAL "darwin")
         set(QUIC_COMMON_FLAGS "${QUIC_COMMON_FLAGS} -DQUIC_PLATFORM_DARWIN -Wno-microsoft-anon-tag -Wno-tautological-constant-out-of-range-compare -Wmissing-field-initializers")
     else()
@@ -222,7 +222,6 @@ else()
         include(FindLTTngUST)
     else()
         message(STATUS "Disabling tracing")
-        set(CMAKE_CLOG_CONFIG_PROFILE stubs)
         set(CMAKE_CLOG_CONFIG_PROFILE stubs)
         list(APPEND CLANG_GCC_WARNING_FLAGS -Wno-unused-parameter -Wno-unused-variable)
     endif()

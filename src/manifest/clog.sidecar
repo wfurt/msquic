@@ -2428,7 +2428,10 @@
         "arg1": "arg1",
         "arg3": "arg3",
         "arg4": "arg4"
-      }
+      },
+      "TestHookDropOldAddrSend": {},
+      "TestHookDropLimitAddrRecv": {},
+      "TestHookDropLimitAddrSend": {}
     }
   },
   "EventBundlesV2": {
@@ -29603,6 +29606,81 @@
           "windows": "etw_plus"
         }
       }
+    },
+    "TestHookDropOldAddrSend": {
+      "ModuleProperites": {
+        "MANIFESTED_ETW": {
+          "EventID": "636",
+          "ETWManifestFile": "MsQuicEtw.man",
+          "ETW_Provider": "ff15e657-4f26-570e-88ab-0796b258d11c",
+          "Level": "win:Informational",
+          "Keywords": "ut:Connection ut:LowVolume"
+        }
+      },
+      "TraceString": "[test][hook] Dropping send to old addr",
+      "UniqueId": "TestHookDropOldAddrSend",
+      "splitArgs": [],
+      "macro": {
+        "MacroName": "QuicTraceLogVerbose",
+        "EncodedPrefix": null,
+        "EncodedArgNumber": 1,
+        "MacroConfiguration": {
+          "linux": "lttng_plus",
+          "stubs": "empty",
+          "windows_kernel": "etw_only",
+          "windows": "etw_plus"
+        }
+      }
+    },
+    "TestHookDropLimitAddrRecv": {
+      "ModuleProperites": {
+        "MANIFESTED_ETW": {
+          "EventID": "637",
+          "ETWManifestFile": "MsQuicEtw.man",
+          "ETW_Provider": "ff15e657-4f26-570e-88ab-0796b258d11c",
+          "Level": "win:Informational",
+          "Keywords": "ut:Connection ut:LowVolume"
+        }
+      },
+      "TraceString": "[test][hook] Dropping recv over limit to new addr",
+      "UniqueId": "TestHookDropLimitAddrRecv",
+      "splitArgs": [],
+      "macro": {
+        "MacroName": "QuicTraceLogVerbose",
+        "EncodedPrefix": null,
+        "EncodedArgNumber": 1,
+        "MacroConfiguration": {
+          "linux": "lttng_plus",
+          "stubs": "empty",
+          "windows_kernel": "etw_only",
+          "windows": "etw_plus"
+        }
+      }
+    },
+    "TestHookDropLimitAddrSend": {
+      "ModuleProperites": {
+        "MANIFESTED_ETW": {
+          "EventID": "638",
+          "ETWManifestFile": "MsQuicEtw.man",
+          "ETW_Provider": "ff15e657-4f26-570e-88ab-0796b258d11c",
+          "Level": "win:Informational",
+          "Keywords": "ut:Connection ut:LowVolume"
+        }
+      },
+      "TraceString": "[test][hook] Dropping send over limit to new addr",
+      "UniqueId": "TestHookDropLimitAddrSend",
+      "splitArgs": [],
+      "macro": {
+        "MacroName": "QuicTraceLogVerbose",
+        "EncodedPrefix": null,
+        "EncodedArgNumber": 1,
+        "MacroConfiguration": {
+          "linux": "lttng_plus",
+          "stubs": "empty",
+          "windows_kernel": "etw_only",
+          "windows": "etw_plus"
+        }
+      }
     }
   },
   "Version": 1,
@@ -29612,10 +29690,6 @@
         "Modules": [
           {
             "ExportModule": "LTTNG",
-            "CustomSettings": {}
-          },
-          {
-            "ExportModule": "SYSTEMTAP",
             "CustomSettings": {}
           }
         ]
