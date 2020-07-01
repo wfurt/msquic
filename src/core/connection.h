@@ -4,6 +4,9 @@
     Licensed under the MIT License.
 
 --*/
+#ifdef QUIC_CLOG
+#include "connection.h.clog.h"
+#endif
 
 #include "connection.h.clog.h"
 

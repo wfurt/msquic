@@ -223,6 +223,7 @@ else()
     else()
         message(STATUS "Disabling tracing")
         set(CMAKE_CLOG_CONFIG_PROFILE stubs)
+        set(CMAKE_CLOG_CONFIG_PROFILE stubs)
         list(APPEND CLANG_GCC_WARNING_FLAGS -Wno-unused-parameter -Wno-unused-variable)
     endif()
 

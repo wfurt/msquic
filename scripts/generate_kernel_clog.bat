@@ -22,7 +22,7 @@ echo %CMAKE_SOURCE_DIR%
 if NOT EXIST %CMAKE_CLOG_BINS_DIRECTORY%\clog.exe (
     echo Building CLOG
     echo dotnet build %CLOG_SOURCE_DIRECTORY%\clog.sln\clog_coreclr.sln -o %CMAKE_CLOG_BINS_DIRECTORY%
-    dotnet build %CLOG_SOURCE_DIRECTORY%\clog.sln\clog_coreclr.sln -o %CMAKE_CLOG_BINS_DIRECTORY%
+    dotnet build %CLOG_SOURCE_DIRECTORY%\clog.sln\clog_coreclr.sln -o %CMAKE_CLOG_BINS_DIRECTORY% >  %CMAKE_CLOG_BINS_DIRECTORY%.kernel.build.log
 )
 
 pushd %CMAKE_PROJECTDIR%
