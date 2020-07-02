@@ -32159,10 +32159,6 @@
         "TraceID": "OpenSslContextCleaningUp"
       },
       {
-        "UniquenessHash": "ff332af9-4ba2-95a8-bb2c-c5c729be4ccd",
-        "TraceID": "OpenSslProcessData"
-      },
-      {
         "UniquenessHash": "f11702ec-fc18-f5bb-c732-90e621e3356d",
         "TraceID": "CertOpenSslGetProcessAddressFailure"
       },
@@ -32305,10 +32301,6 @@
       {
         "UniquenessHash": "d5458244-ce44-333d-c01e-4739a7e39567",
         "TraceID": "SchannelKeyReady"
-      },
-      {
-        "UniquenessHash": "183e91b7-6ad7-7a8b-0d77-94004bde6757",
-        "TraceID": "SchannelProcessingData"
       },
       {
         "UniquenessHash": "ad38c379-0d77-0135-bf6a-19efa61ee493",

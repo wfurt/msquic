@@ -18,6 +18,8 @@ Abstract:
 #include "openssl/pem.h"
 #ifdef QUIC_CLOG
 #include "tls_openssl.c.clog.h"
+#else
+#error bad ifdef
 #endif
 
 uint16_t QuicTlsTPHeaderSize = 0;

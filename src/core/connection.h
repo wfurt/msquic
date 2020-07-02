@@ -8,8 +8,6 @@
 #include "connection.h.clog.h"
 #endif
 
-#include "connection.h.clog.h"
-
 typedef struct QUIC_LISTENER QUIC_LISTENER;
 
 //
