@@ -19,6 +19,8 @@ Abstract:
 #ifdef _WIN32
 #pragma warning(push)
 #pragma warning(disable:4100) // Unreferenced parameter errcode in inline function
+#else
+#include <dlfcn.h>
 #endif
 #include "openssl/bio.h"
 #ifdef IS_OPENSSL_3
@@ -40,6 +42,9 @@ Abstract:
 #ifdef QUIC_CLOG
 #include "crypt_openssl.c.clog.h"
 #endif
+
+EVP_CIPHER *CXPLAT_CHACHA20_ALG_HANDLE;
+EVP_CIPHER *CXPLAT_CHACHA20_POLY1305_ALG_HANDLE;
 
 typedef struct CXPLAT_HP_KEY {
     EVP_CIPHER_CTX* CipherCtx;
@@ -64,13 +69,54 @@ CxPlatCryptInitialize(
     // success.
     //
 
+
     ERR_clear_error();
 
     //
     // LINUX_TODO:Add Check for openssl library QUIC support.
+
+#if defined _WIN32 || !defined CXPLAT_SYSTEM_CRYPTO
+    CXPLAT_CHACHA20_ALG_HANDLE = (EVP_CIPHER *)EVP_chacha20();
+    CXPLAT_CHACHA20_POLY1305_ALG_HANDLE = (EVP_CIPHER *)EVP_chacha20_poly1305();
+#else
+    CXPLAT_CHACHA20_ALG_HANDLE = NULL;
+    CXPLAT_CHACHA20_POLY1305_ALG_HANDLE = NULL;
+
     //
+    // Try to load ChaCha20 ciphers dynamically. They may or may not exist when using system crypto.
+    //
+    EVP_CIPHER* (*func)(void) = NULL;
+    func = dlsym(NULL, "EVP_chacha20");
+    if (func != NULL) {
+        CXPLAT_CHACHA20_ALG_HANDLE = (*func)();
+    }
+
+    func = dlsym(NULL, "EVP_chacha20_poly1305");
+    if (func != NULL) {
+        CXPLAT_CHACHA20_POLY1305_ALG_HANDLE = (*func)();
+    }
+#endif
+    //
+    // LINUX_TODO:Add Check for openssl library QUIC support.
 
     return QUIC_STATUS_SUCCESS;
+}
+
+BOOLEAN
+CxPlatCryptSupports(
+    CXPLAT_AEAD_TYPE AeadType
+    )
+{
+    switch (AeadType) {
+    case CXPLAT_AEAD_AES_128_GCM:
+        return TRUE;
+    case CXPLAT_AEAD_AES_256_GCM:
+        return TRUE;
+    case CXPLAT_AEAD_CHACHA20_POLY1305:
+        return CXPLAT_CHACHA20_ALG_HANDLE != NULL;
+    default:
+        return FALSE;
+    }
 }
 
 void
@@ -112,7 +158,11 @@ CxPlatKeyCreate(
         Aead = EVP_aes_256_gcm();
         break;
     case CXPLAT_AEAD_CHACHA20_POLY1305:
-        Aead = EVP_chacha20_poly1305();
+        if (CXPLAT_CHACHA20_POLY1305_ALG_HANDLE == NULL) {
+            Status = QUIC_STATUS_NOT_SUPPORTED;
+            goto Exit;
+        }
+        Aead = CXPLAT_CHACHA20_POLY1305_ALG_HANDLE;
         break;
     default:
         Status = QUIC_STATUS_NOT_SUPPORTED;
@@ -338,7 +388,11 @@ CxPlatHpKeyCreate(
         Aead = EVP_aes_256_ecb();
         break;
     case CXPLAT_AEAD_CHACHA20_POLY1305:
-        Aead = EVP_chacha20();
+        if (CXPLAT_CHACHA20_ALG_HANDLE == NULL) {
+            Status = QUIC_STATUS_NOT_SUPPORTED;
+            goto Exit;
+        }
+        Aead = CXPLAT_CHACHA20_ALG_HANDLE;
         break;
     default:
         Status = QUIC_STATUS_NOT_SUPPORTED;
